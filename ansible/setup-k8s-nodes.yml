@@ -1,0 +1,42 @@
+---
+- name: Configure Kubernetes worker nodes
+  hosts: k8s_workers
+  become: yes
+  vars:
+    docker_version: "24.0"
+    k8s_version: "1.29"
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name: [apt-transport-https, ca-certificates, curl, gnupg, lsb-release]
+        state: present
+        update_cache: yes
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: "docker-ce={{ docker_version }}*"
+        state: present
+
+    - name: Enable and start Docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Configure kubelet
+      template:
+        src: kubelet.conf.j2
+        dest: /etc/kubernetes/kubelet.conf
+      notify: restart kubelet
+
+  handlers:
+    - name: restart kubelet
+      systemd:
+        name: kubelet
+        state: restarted
