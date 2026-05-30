@@ -1,34 +1,72 @@
 # DevOps & Cloud Infrastructure
 
-End-to-end cloud infrastructure and CI/CD automation managing multi-region AWS deployments with real-time monitoring and alerting.
+A collection of Terraform and CI/CD configurations for deploying Java Spring Boot applications to AWS using Docker and GitHub Actions.
 
-## Key Achievements
-- Orchestrated **Docker/Kubernetes** across **3 AWS regions** (us-east-1, us-west-2, eu-west-1)
-- Automated **100%** of deployment pipeline — zero manual steps
-- Reduced **incident response time by 45%** with real-time alerting
+This is a portfolio project that captures the infrastructure and deployment patterns I've worked with — including the CI/CD pipelines I built and maintained at Mutual of Omaha.
+
+## What's In Here
+
+- Terraform scripts to provision AWS infrastructure (EC2, S3, RDS, VPC)
+- GitHub Actions workflows to build, test, dockerize, and deploy Spring Boot apps
+- Docker Compose setup for local development with multiple services
+- Kubernetes manifests for container orchestration (learning/reference)
 
 ## Tech Stack
-| Domain | Technologies |
+
+| Domain | Technology |
 |---|---|
-| IaC | Terraform, AWS CloudFormation |
-| Containers | Docker, Kubernetes (EKS) |
-| CI/CD | Jenkins, GitHub Actions |
-| Monitoring | CloudWatch, Grafana, Prometheus |
-| Config Mgmt | Ansible |
-| Cloud | AWS (EKS, ECS, RDS, S3, CloudFront, Route53) |
+| Infrastructure as Code | Terraform |
+| Containers | Docker, Docker Compose |
+| Orchestration | Kubernetes (K8s) |
+| CI/CD | GitHub Actions, Jenkins |
+| Cloud | AWS (EC2, S3, RDS, VPC) |
+| Monitoring | CloudWatch |
 
-## Infrastructure Overview
+## CI/CD Pipeline
+
 ```
-GitHub → GitHub Actions → ECR
-                       → EKS (us-east-1)   ─┐
-                       → EKS (us-west-2)   ─┼─ Route53 (Geo-routing)
-                       → EKS (eu-west-1)   ─┘
-                              ↓
-                    CloudWatch + Grafana monitoring
+GitHub Push → GitHub Actions
+             → Run unit tests (Maven)
+             → Build Docker image
+             → Push to Docker Hub / ECR
+             → Deploy to EC2
 ```
 
-## Quick Start
+## Terraform Structure
+
+```
+terraform/
+├── main.tf          — provider config and main resources
+├── variables.tf     — input variables
+├── outputs.tf       — output values
+├── ec2.tf           — EC2 instance and security groups
+├── rds.tf           — PostgreSQL RDS instance
+└── s3.tf            — S3 buckets for assets and deployments
+```
+
+## Getting Started
+
+Prerequisites: Terraform, AWS CLI, Docker
+
 ```bash
 cd terraform/
-terraform init && terraform plan && terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
+
+## What I Applied Here
+
+- Writing Terraform to provision repeatable AWS environments
+- GitHub Actions for automated build → test → deploy pipelines
+- Docker multi-stage builds to keep images lean
+- Environment variable management across dev and prod configs
+
+## Background
+
+Based on real CI/CD and deployment work at Mutual of Omaha where I built and maintained Jenkins and GitHub Actions pipelines, deployed to EC2/S3, and worked with Docker-based deployment workflows.
+
+---
+
+**Rajesh Kumar** — Full Stack Java Developer | Chicago, IL
+[Portfolio](https://rajeshdevandla.github.io) · [GitHub](https://github.com/Rajeshdevandla)
