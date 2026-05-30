@@ -1,5 +1,6 @@
 # DevOps & Cloud Infrastructure
 
+
 A collection of Terraform and CI/CD configurations for deploying Java Spring Boot applications to AWS using Docker and GitHub Actions.
 
 This is a portfolio project that captures the infrastructure and deployment patterns I've worked with — including the CI/CD pipelines I built and maintained at Mutual of Omaha.
